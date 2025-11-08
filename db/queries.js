@@ -11,7 +11,21 @@ async function insertUsername(username) {
     ]);
 }
 
+async function searchUsernames(searchTerm) {
+    const { rows } = await pool.query(
+        "SELECT * FROM usernames WHERE username ILIKE $1",
+        [`%${searchTerm}%`]
+    );
+    return rows;
+}
+
+async function deleteAllUsernames() {
+    await pool.query("DELETE FROM usernames");
+}
+
 module.exports = {
     getAllUsernames,
     insertUsername,
+    searchUsernames,
+    deleteAllUsernames,
 };
